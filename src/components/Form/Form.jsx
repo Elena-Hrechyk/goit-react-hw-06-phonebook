@@ -1,4 +1,6 @@
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux/actions';
+import { getContacts } from 'redux/selector';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { Forma, Lable, Input, BtnAddContact } from './Form.styled';
@@ -13,11 +15,27 @@ const initialValues = {
   number: '',
 };
 
-export const FormContact = ({ onSubmit }) => {
+export const FormContact = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
 
   const handleSubmit = (values, { resetForm }) => {
-    console.log(values);
-    onSubmit(values);
+    const nameUser = values.username.toLowerCase().trim();
+
+    const checkContact = contacts.some(
+      item => item.username.toLowerCase() === nameUser
+    );
+
+    if (checkContact) {
+      return alert(`${values.username.trim()} is already in contacts`);
+    }
+
+    dispatch(
+      addContact({
+        username: values.username.trim(),
+        number: values.numbe.trim(),
+      })
+    );
     resetForm();
   };
 
@@ -33,7 +51,7 @@ export const FormContact = ({ onSubmit }) => {
           <Input
             type="text"
             name="username"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            // pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             placeholder="Adrian"
             autoFocus
@@ -45,7 +63,7 @@ export const FormContact = ({ onSubmit }) => {
           <Input
             type="tel"
             name="number"
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             placeholder="380671234567"
             required
@@ -55,8 +73,4 @@ export const FormContact = ({ onSubmit }) => {
       </Forma>
     </Formik>
   );
-};
-
-FormContact.prototype = {
-  onSubmit: PropTypes.func.isRequired,
 };

@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-export const BoxFilter = styled.div`
+export const BoxFilter = styled.form`
   width: 400px;
   padding: 15px;
   margin-top: 20px;

@@ -1,4 +1,7 @@
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact } from 'redux/actions';
+import { getContacts } from 'redux/selector';
+import { getFilter } from 'redux/selector';
 import {
   List,
   ItemContact,
@@ -6,11 +9,16 @@ import {
   BtnDelContact,
 } from './ContactList.styled';
 
-export const ContactList = ({ contacts, onDeleteContact }) => {
+export const ContactList = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
+  const filter = useSelector(getFilter);
+  const visibleContacts = getVisibleContacts(contacts, filter);
+
   return (
     <>
       <List>
-        {contacts.map(item => {
+        {visibleContacts.map(item => {
           return (
             <ItemContact key={item.id}>
               <InfoContact>
@@ -18,9 +26,7 @@ export const ContactList = ({ contacts, onDeleteContact }) => {
               </InfoContact>
               <BtnDelContact
                 type="button"
-                onClick={() => {
-                  onDeleteContact(item.id);
-                }}
+                onClick={() => dispatch(deleteContact(item.id))}
               >
                 Delete
               </BtnDelContact>
@@ -32,13 +38,8 @@ export const ContactList = ({ contacts, onDeleteContact }) => {
   );
 };
 
-ContactList.prototype = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.exact({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ),
-  onDeleteContact: PropTypes.func,
-};
+function getVisibleContacts(contacts, filter) {
+  return contacts.filter(contact =>
+    contact.username.toLowerCase().includes(filter)
+  );
+}
