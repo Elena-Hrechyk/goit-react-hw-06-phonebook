@@ -5,11 +5,6 @@ import { Filter } from './Filter/Filter';
 import { ContactList } from './Contacts/ContactList';
 import { Title, TextTitle } from './App.styled';
 
-// const getInitialContacts = () => {
-//   const savedContacts = localStorage.getItem('contacts');
-//   return savedContacts !== null ? JSON.parse(savedContacts) : [];
-// };
-
 export const App = () => {
   const contacts = useSelector(getContacts);
 

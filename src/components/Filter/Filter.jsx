@@ -21,7 +21,7 @@ export const Filter = () => {
             type="text"
             name="filter"
             onChange={handleFilter}
-            // pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           />
         </LableFilter>
       </BoxFilter>
