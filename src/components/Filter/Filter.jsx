@@ -1,13 +1,14 @@
 import { useDispatch } from 'react-redux';
-import { filterContacts } from 'redux/actions';
+import { filterContacts } from 'redux/filtersSlice';
 
 import { BoxFilter, LableFilter, InputFilter } from './Filter.styled';
 
 export const Filter = () => {
   const dispatch = useDispatch();
 
-  const filterSubmit = evt => {
+  const handleFilter = evt => {
     const value = evt.target.value.toLowerCase().trim();
+    console.log(value);
     dispatch(filterContacts(value));
   };
 
@@ -19,7 +20,7 @@ export const Filter = () => {
           <InputFilter
             type="text"
             name="filter"
-            onChange={filterSubmit}
+            onChange={handleFilter}
             // pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           />
         </LableFilter>

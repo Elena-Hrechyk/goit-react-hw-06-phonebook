@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/actions';
+import { addContact } from 'redux/contactsSlice';
 import { getContacts } from 'redux/selector';
+import { nanoid } from 'nanoid';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { Forma, Lable, Input, BtnAddContact } from './Form.styled';
@@ -32,8 +33,9 @@ export const FormContact = () => {
 
     dispatch(
       addContact({
+        id: nanoid(5),
         username: values.username.trim(),
-        number: values.numbe.trim(),
+        number: values.number.trim(),
       })
     );
     resetForm();
